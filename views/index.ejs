@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <div class="snake-app">
+      <input class="new-snake" value="New snake" type="button" data-bind="click: add"/>
+    	<ul data-bind="foreach: snakes"> <!-- this will render a copy the ul's CHILD ELEMENTS fro each entry in the snakes array -->
+        <li data-bind="visible: visible"><input type="text" class="edit" name="name" data-bind="value: name, event: { blur: $root.saveEditing }"/> <input type="text" class="edit" name="length" data-bind="value: len, event: { blur: $root.saveEditing }"/> <input type="text"  class="edit" name="age" data-bind="value: age, event: { blur: $root.saveEditing }"/> <input type="button" value="Delete" class="destroy" data-bind="click: $parent.remove"/></li>
+      </ul>
+      <input type="button" value="Save" data-bind="click: save"/>
+    </div>
+    <script type="text/javascript" src="/javascripts/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/javascripts/knockout/knockout.js"></script>
+    <script type="text/javascript" src="/javascripts/ko.js"></script>
+  </body>
+  
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "snakes-app",
+  "version": "0.0.0",
+  "description":"a simple app to maintain a snakes database with KnockoutJS and MongoDB",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gothbag/snakes-app.git"
+  },
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "ejs": "~2.3.3",
+    "express": "~4.13.1",
+    "method-override": "~2.3.5",
+    "mongodb": "^2.1.11",
+    "morgan": "~1.6.1",
+    "serve-favicon": "~2.3.0"
+  },
+  "author": "Gothbag"
+}
