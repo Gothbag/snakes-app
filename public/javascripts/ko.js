@@ -18,14 +18,14 @@
 					});
 		        }
 		    });
-		};
+		}.bind(this);
 
 		//store the new snake being added
 		this.current = ko.observable();
 		//add a new snake
 		this.add = function () {
 			this.snakes.push(new Snake({"name":"Snake","len":1,"age":1}));
-		}.bind(this); // this ensure the value "this" is the parent object and not the array item. 
+		}.bind(this); // this ensures the value "this" is the parent object and not the array item. 
 
 		this.remove = function (snake) {
 			if (snake.hasOwnProperty("_id")) {
@@ -44,14 +44,14 @@
 		        contentType: "application/json; charset=utf-8",
 		        dataType: 'json',
 		  		data: data,
-		        success: function (snakes) {
+		        success: function (data) {
 		            self.snakes.removeAll();
 		            data.map(function (snake) {
 						self.snakes.push(new Snake(snake));
 					});
 		        }
 		    });
-		}
+		}.bind(this);
 
 		this.snakes = ko.observableArray();
 		this.loadSnakes();
