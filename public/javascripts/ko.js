@@ -17,7 +17,7 @@
 		this.remove = function (snake) {
 			if (snake.hasOwnProperty("_id")) {
 				snake.visible(false); //we hide the snake
-				snake.del(true); //we mark if for deletion
+				snake.deleteItem(true); //we mark if for deletion
 			} else {
 				this.remove(snake); //the snake is just removed from the array
 			}
@@ -62,7 +62,7 @@
 	var Snake = function (snake) {
 		this._id = snake._id;
 		this.visible = ko.observable(true);
-		this.del = ko.observable(false);
+		this.deleteItem = ko.observable(false);
 		this.name = ko.observable(snake.name);
 		this.len = ko.observable(snake.len);
 		this.age = ko.observable(snake.age);

@@ -21,8 +21,8 @@ router.post('/api/snakes/save', function(req, res) {
 	var snakes = req.body;
 	snakes.forEach(function (snake) {
 		delete( snake.visible );
-		if (!snake.hasOwnProperty("_id") && !snake.del) { //we insert snakes without an id
-			delete( snake.del );
+		if (!snake.hasOwnProperty("_id") && !snake.deleteItem) { //we insert snakes without an id
+			delete( snake.deleteItem );
 			mongo.db()
 				.collection('snakes')
 				.insert(snake, function (err) {
@@ -30,14 +30,14 @@ router.post('/api/snakes/save', function(req, res) {
 				});
 		} else {
 			var id = new mongo.ObjectId(snake._id);
-			if (snake.del) { // the snake is deleted if it's marked for deletion
+			if (snake.deleteItem) { // the snake is deleted if it's marked for deletion
 				mongo.db()
 					.collection('snakes')
 					.removeOne({_id:id}, function (err) {
 						if (err) {throw err;}
 					});
 			} else {
-				delete( snake.del ); //these two properties are not necessary anymore
+				delete( snake.deleteItem ); //these two properties are not necessary anymore
 				delete( snake._id );
 				mongo.db()
 					.collection('snakes')
