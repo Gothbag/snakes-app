@@ -38,7 +38,7 @@ router.post('/api/snakes/save', function(req, res) {
 						return listSnakes(req, res); //we return the updated snakes
 					}
 				});
-		} else if (snake.deleteItem) {
+		} else { //items marked for deletion
 			collection.removeOne({_id: snake._id}, function (err) {
 					if (err) {throw err;}
 					itemsProcessed++;
