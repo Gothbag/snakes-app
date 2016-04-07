@@ -38,7 +38,7 @@ router.post('/api/snakes/save', function(req, res) {
 						return listSnakes(req, res); //we return the updated snakes
 					}
 				});
-		} else if (snake.deleteItem && snake.hasOwnProperty("_id")) {
+		} else if (snake.deleteItem) {
 			collection.removeOne({_id: snake._id}, function (err) {
 					if (err) {throw err;}
 					itemsProcessed++;
@@ -46,7 +46,7 @@ router.post('/api/snakes/save', function(req, res) {
   						return listSnakes(req, res);
 					}
 				}); 
-		} else { //we do nothing with snakes marked for deletion without an _id
+		} else { //we do nothing with snakes marked for deletion without an _id. this is just so that the callback gets called at the right time
 			itemsProcessed++;
 			if(itemsProcessed === len) {
 				return listSnakes(req, res);
