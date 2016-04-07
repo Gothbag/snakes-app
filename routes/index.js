@@ -21,51 +21,39 @@ router.get('/', function(req, res) {
 router.post('/api/snakes', listSnakes);
 
 router.post('/api/snakes/save', function(req, res) {
-	var itemsProcessed = 0; //to make sure the callback is called when we're done operating with the snakes array
+	var itemsProcessed = 0; //this is so that when all items are processed, we can send them back
 	var snakes = req.body;
 	var collection = mongo.db().collection('snakes');
-	console.log(snakes);
 	var len = snakes.length;
 	snakes.forEach(function (snake) {
+		if (snake.hasOwnProperty("_id")) { snake._id = new mongo.ObjectId(snake._id);} //Knockout sends items without an ObjectId
 		delete( snake.visible );
-		if (!snake.hasOwnProperty("_id") && !snake.deleteItem) { //we insert snakes without an id
+		if (!snake.deleteItem) { //we insert snakes without an id
 			delete( snake.deleteItem );
-			collection
-				.insert(snake, function (err) {
+			delete( snake.visible );
+				collection.save(snake, function (err) {
 					if (err) {throw err;}
 					itemsProcessed++;
 					if(itemsProcessed === len) {
-						return listSnakes(req, res); //we return the remaining snakes back
+						return listSnakes(req, res); //we return the updated snakes
 					}
 				});
-		} else {
-			var id = new mongo.ObjectId(snake._id);
-			if (snake.deleteItem) { // the snake is deleted if it's marked for deletion
-				collection
-					.removeOne({_id:id}, function (err) {
-						if (err) {throw err;}
-						itemsProcessed++;
-						if(itemsProcessed === len) {
-							return listSnakes(req, res);
-						}
-					});
-			} else {
-				delete( snake.deleteItem ); //these two properties are not necessary anymore
-				delete( snake._id );
-				collection
-					.update({_id:id}, snake, function (err) {
-						if (err) {throw err;}
-						itemsProcessed++;
-						if(itemsProcessed === len) {
-							return listSnakes(req, res);
-						}
-					});
+		} else if (snake.deleteItem && snake.hasOwnProperty("_id")) {
+			collection.removeOne({_id: snake._id}, function (err) {
+					if (err) {throw err;}
+					itemsProcessed++;
+					if(itemsProcessed === len) {
+  						return listSnakes(req, res);
+					}
+				}); 
+		} else { //we do nothing with snakes marked for deletion without an _id
+			itemsProcessed++;
+			if(itemsProcessed === len) {
+				return listSnakes(req, res);
 			}
 		}
 	});
 	
 });
-
-
 
 module.exports = router;
