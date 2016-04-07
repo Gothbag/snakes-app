@@ -29,7 +29,7 @@ router.post('/api/snakes/save', function(req, res) {
 		if (snake.hasOwnProperty("_id")) { snake._id = new mongo.ObjectId(snake._id);} //Knockout sends items without an ObjectId
 		delete( snake.visible );
 		if (!snake.deleteItem) { //we insert snakes without an id
-			delete( snake.deleteItem );
+			delete( snake.deleteItem ); //we don't need these fields anymore
 			delete( snake.visible );
 				collection.save(snake, function (err) {
 					if (err) {throw err;}
@@ -46,11 +46,6 @@ router.post('/api/snakes/save', function(req, res) {
   						return listSnakes(req, res);
 					}
 				}); 
-		} else { //we do nothing with snakes marked for deletion without an _id. this is just so that the callback gets called at the right time
-			itemsProcessed++;
-			if(itemsProcessed === len) {
-				return listSnakes(req, res);
-			}
 		}
 	});
 	
