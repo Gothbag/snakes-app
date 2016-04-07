@@ -8,11 +8,11 @@
 		this.loadSnakes = function () {
 			$.ajax({
 		        type: "POST",
-		        url: '/api/snakes', /* El servicio web */
+		        url: '/api/snakes', /* url of the request */
 		        contentType: "application/json; charset=utf-8",
 		        dataType: 'json',
 		        success: function (data) {
-		        	self.snakes.removeAll();
+		        	self.snakes.removeAll(); //all snakes are removed beforehand
 					data.map(function (snake) {
 						self.snakes.push(new Snake(snake));
 					});
@@ -40,15 +40,15 @@
 			var data = ko.toJSON(this.snakes);
 			$.ajax({
 		        type: "POST",
-		        url: '/api/snakes/save', /* El servicio web */
+		        url: '/api/snakes/save', /* url of the request */
 		        contentType: "application/json; charset=utf-8",
 		        dataType: 'json',
 		  		data: data,
 		        success: function (snakes) {
 		            self.snakes.removeAll();
-		            $.each(snakes, function (index, snake) {
-		                self.snakes.push(new Snake(snake));
-		            });
+		            data.map(function (snake) {
+						self.snakes.push(new Snake(snake));
+					});
 		        }
 		    });
 		}
