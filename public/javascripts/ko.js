@@ -3,6 +3,8 @@
 
 	//the main view model
 	var ViewModel = function (snakes) {
+		var self = this;
+
 		this.snakes = ko.observableArray(snakes.map(function (snake) {
 			return new Snake(snake);
 		}));
@@ -32,9 +34,9 @@
 		        dataType: 'json',
 		  		data: data,
 		        success: function (snakes) {
-		            self.timesheets.removeAll();
-		            $.each(timesheets, function (index, snake) {
-		                this.snakes.push(new Snake(snake));
+		            self.snakes.removeAll();
+		            $.each(snakes, function (index, snake) {
+		                self.snakes.push(new Snake(snake));
 		            });
 		        }
 		    });
