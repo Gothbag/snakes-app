@@ -5,9 +5,20 @@
 	var ViewModel = function (snakes) {
 		var self = this;
 
-		this.snakes = ko.observableArray(snakes.map(function (snake) {
-			return new Snake(snake);
-		}));
+		this.loadSnakes = function () {
+			$.ajax({
+		        type: "POST",
+		        url: '/api/snakes', /* El servicio web */
+		        contentType: "application/json; charset=utf-8",
+		        dataType: 'json',
+		        success: function (data) {
+		        	self.snakes.removeAll();
+					data.map(function (snake) {
+						self.snakes.push(new Snake(snake));
+					});
+		        }
+		    });
+		};
 
 		//store the new snake being added
 		this.current = ko.observable();
@@ -42,23 +53,10 @@
 		    });
 		}
 
-		this.loadSnakes = function () {
-			
-		}
+		this.snakes = ko.observableArray();
+		this.loadSnakes();
 
 	};
-
-	$.ajax({
-        type: "POST",
-        url: '/api/snakes', /* El servicio web */
-        contentType: "application/json; charset=utf-8",
-        dataType: 'json',
-        success: function (data) {
-            // bind a new instance of our view model to the page
-			var viewModel = new ViewModel(data || []);
-			ko.applyBindings(viewModel);
-        }
-    });
 
 	//represent a single snake item le
 	var Snake = function (snake) {
@@ -70,6 +68,9 @@
 		this.age = ko.observable(snake.age);
 	}
 	//we load the data
+
+	var viewModel = new ViewModel();
+	ko.applyBindings(viewModel);
 
 }());
 
