@@ -1,6 +1,6 @@
 {
   "name": "snakes-app",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description":"a simple app to maintain a snakes database with KnockoutJS and MongoDB",
   "private": true,
   "scripts": {
